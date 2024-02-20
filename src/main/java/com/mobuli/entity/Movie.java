@@ -3,9 +3,15 @@ package com.mobuli.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class Movies {
+@Getter
+@Setter
+@Table(name="movies")
+public class Movie {
     @Id
     @Column(name = "id", nullable = false)
     private long id;
