@@ -22,7 +22,7 @@ public class DefaultMovieController implements MovieController {
     }
      @GetMapping("/list")
      public List<Movie> getAllMovies() {
-
+         System.out.println("Retrieving all movies!");
         return movieService.findAll();
      }
 
