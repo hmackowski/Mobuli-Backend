@@ -2,13 +2,14 @@ package com.mobuli.controller;
 
 import com.mobuli.entity.Movie;
 import com.mobuli.service.MovieService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/movie")
@@ -17,7 +18,6 @@ public class DefaultMovieController implements MovieController {
 
     @Autowired
     public DefaultMovieController(MovieService movieService){
-
         this.movieService = movieService;
     }
      @GetMapping("/list")
@@ -26,10 +26,22 @@ public class DefaultMovieController implements MovieController {
         return movieService.findAll();
      }
 
-    @GetMapping("/test")
-    public String testController() {
-        System.out.println("Test in progess!");
-        return "Controller is working";
+
+
+    @PostMapping("/addMovie")
+    public Optional<Movie> addMovie(@RequestBody Movie movie) {
+        return movieService.addMovie(movie);
+    }
+
+    @Override
+    @PutMapping("/{id}/watched")
+    public ResponseEntity<Movie> updateWatchedStatus(@PathVariable long id, @RequestBody boolean newWatchedStatus) {
+        try{
+            Movie updatedMovie = movieService.updateWatchedStatus(id, newWatchedStatus);
+            return ResponseEntity.ok(updatedMovie);
+        } catch (EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

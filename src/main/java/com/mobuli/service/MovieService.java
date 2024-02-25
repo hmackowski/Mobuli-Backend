@@ -1,11 +1,12 @@
 package com.mobuli.service;
 import com.mobuli.entity.Movie;
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieService {
     Movie findById(Long id);
     List<Movie> findAll();
-    Movie save(Movie movie);
+    Optional<Movie> addMovie(Movie movie);
     void deleteById(Long id);
-    // Add more methods as needed based on your application's requirements
+    public Movie updateWatchedStatus(long id, boolean newWatchedStatus);
 }

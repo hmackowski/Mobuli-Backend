@@ -1,9 +1,6 @@
 package com.mobuli.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +10,10 @@ import lombok.Setter;
 @Table(name="movies")
 public class Movie {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // or another suitable strategy
     @Column(name = "id", nullable = false)
     private long id;
+
 
     @Column(name = "Title", nullable = false, length = 255)
     private String title;
@@ -31,7 +30,7 @@ public class Movie {
     @Column(name = "imdbID", unique = true, length = 255)
     private String imdbID;
 
-    @Column(name = "genre", length = 255)
-    private String genre;
+    /*@Column(name = "genre", length = 255)
+    private String genre;*/
 
 }
