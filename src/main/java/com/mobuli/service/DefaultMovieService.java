@@ -47,13 +47,15 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public Movie updateWatchedStatus(long id, boolean newWatchedStatus) {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie not found with id: " + id));
+        Movie movie = movieRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Movie not found with id: " + id));
         movie.setWatched(newWatchedStatus);
         return movieRepository.save(movie);
     }
 
     public Movie getMovieByImdbID(String imdbID) {
-        return movieRepository.findByImdbID(imdbID).orElseThrow(() -> new EntityNotFoundException("Movie not found with imdbID: " + imdbID));
+        return movieRepository.findByImdbID(imdbID).orElseThrow(() ->
+                new EntityNotFoundException("Movie not found with imdbID: " + imdbID));
     }
 
     @Override

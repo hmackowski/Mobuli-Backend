@@ -6,6 +6,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -15,16 +17,17 @@ import java.util.Optional;
 @RequestMapping("/movie")
 public class DefaultMovieController implements MovieController {
     private final MovieService movieService;
+    public UserDetailsService userDetailsService;
 
     @Autowired
     public DefaultMovieController(MovieService movieService) {
         this.movieService = movieService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/list")
     public List<Movie> getAllMovies() {
-        System.out.println("Retrieving all movies!");
+        System.out.println("Retrieving all movies! for user " + "");
         return movieService.findAll();
     }
 
