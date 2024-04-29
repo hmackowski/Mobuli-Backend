@@ -1,19 +1,23 @@
 package com.mobuli.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @Table(name="movies")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Movie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // or another suitable strategy
     @Column(name = "id", nullable = false)
     private long id;
-
 
     @Column(name = "Title", nullable = false, length = 255)
     private String title;
