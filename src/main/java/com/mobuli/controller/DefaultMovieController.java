@@ -21,7 +21,7 @@ public class DefaultMovieController implements MovieController {
         this.movieService = movieService;
     }
 
-    @PreAuthorize("hasAnyRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/list")
     public List<Movie> getAllMovies() {
         System.out.println("Retrieving all movies!");

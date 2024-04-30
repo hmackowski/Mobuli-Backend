@@ -36,9 +36,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "password_expire_date")
-    private Date passwordExpireDate;
-
     @Column(name = "is_locked")
     private boolean isLocked;
 
