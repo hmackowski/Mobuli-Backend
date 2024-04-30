@@ -45,6 +45,7 @@ public class SpringSecurityConfig {
                     // authorize.requestMatchers(HttpMethod.GET, "/movie/**").permitAll();
                     //authorize.requestMatchers("/movie/auth/**").permitAll(); //Allows all roles to access this end point
                     // authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                    authorize.requestMatchers("/api/auth/**").permitAll();
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         return http.build();

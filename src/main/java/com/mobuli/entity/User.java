@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name="users")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // or another suitable strategy
@@ -43,10 +43,10 @@ public class Users {
     private boolean isLocked;
 
     @Column(name = "account_created_at")
-    private Date accountCreatedAt;
+    private String accountCreatedAt;
 
     @Column(name = "password_updated_at")
-    private Date passwordUpdatedAt;
+    private String passwordUpdatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",

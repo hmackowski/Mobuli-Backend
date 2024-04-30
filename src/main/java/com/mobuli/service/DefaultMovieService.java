@@ -1,10 +1,8 @@
 package com.mobuli.service;
 
 import com.mobuli.entity.Movie;
-import com.mobuli.DAO.MovieRepository;
-import com.mobuli.service.MovieService;
+import com.mobuli.repository.MovieRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 

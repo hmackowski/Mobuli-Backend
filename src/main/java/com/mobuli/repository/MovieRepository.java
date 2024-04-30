@@ -1,4 +1,4 @@
-package com.mobuli.DAO;
+package com.mobuli.repository;
 
 import com.mobuli.entity.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
