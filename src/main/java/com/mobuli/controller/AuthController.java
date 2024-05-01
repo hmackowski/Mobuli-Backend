@@ -1,5 +1,6 @@
 package com.mobuli.controller;
 
+import com.mobuli.dto.LoginDto;
 import com.mobuli.dto.RegisterDto;
 import com.mobuli.service.AuthService;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,10 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    //Build Login REST API
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+        String response = authService.login(loginDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
