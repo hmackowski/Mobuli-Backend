@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import java.util.HashSet;
@@ -80,5 +81,10 @@ public class DefaultAuthService implements AuthService {
             return "Wrong email address or password was used.";
         }
 
+    }
+
+    @Override
+    public Optional<User> getUserID(User user) {
+        return userRepository.findByEmailAddress(user.getEmailAddress());
     }
 }
