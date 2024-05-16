@@ -33,7 +33,7 @@ jobs:
     runs-on: [aws-ec2]
     steps:
       - name: Pull image from Docker hub
-        run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
+        run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot
       - name: Delete old container
         run: docker rm -f mobuli-container
       - name: Run docker container
