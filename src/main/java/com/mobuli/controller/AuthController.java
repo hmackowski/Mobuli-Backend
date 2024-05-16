@@ -2,8 +2,10 @@ package com.mobuli.controller;
 
 import com.mobuli.dto.LoginDto;
 import com.mobuli.dto.RegisterDto;
+import com.mobuli.entity.Movie;
 import com.mobuli.entity.User;
 import com.mobuli.service.AuthService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +38,12 @@ public class AuthController {
     }
 
     @GetMapping("/getUserID")
-    public Optional<User> getUserID(@RequestBody User user){
-        System.out.println(user.getEmailAddress() + " was searched for!");
-        return authService.getUserID(user);
+    public ResponseEntity<User> getMovieByImdbID(String emailAddress) {
+        try {
+            User user = authService.getUserID(emailAddress);
+            return ResponseEntity.ok(user);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -1,0 +1,37 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout source
+       uses: actions/checkout@v3
+     - name: Setup Java
+       uses: actions/setup-java@v4
+       with:
+         distribution: 'temurin' # See 'Supported distributions' for available options
+         java-version: '17'
+     - name: Build Project
+       run: mvn clean install -DskipTests
+     - name: Login to docker hub
+       run: docker login -u {{secrets.DOCKER_USERNAME}} -p {{secrets.DOCKER_PASSWORD}}
+     - name: Build docker image
+       run: docker build -t mobuli/Mobuli-Backend-0.0.1-SNAPSHOT .
+     - name: Publish image to docker hub
+       run: docker push mobuli/Mobuli-Backend-0.0.1-SNAPSHOT:latest
+
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull image from Docker hub
+        run: docker pull mobuli/Mobuli-Backend-0.0.1-SNAPSHOT:latest
+      - name: Delete old container
+        run: docker rm -f mobuli-container
+      - name: Run docker container
+        run: docker run -d -p 8080:8080 --name mobuli-container mobuli/Mobuli-Backend-0.0.1-SNAPSHOT:latest

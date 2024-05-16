@@ -7,6 +7,7 @@ import com.mobuli.entity.User;
 import com.mobuli.exception.MobuliAPIException;
 import com.mobuli.repository.RoleRepository;
 import com.mobuli.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -84,7 +85,9 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public Optional<User> getUserID(User user) {
-        return userRepository.findByEmailAddress(user.getEmailAddress());
+    public User getUserID(String emailAddress) {
+        return userRepository.findByEmailAddress(emailAddress).orElseThrow(() ->
+                new EntityNotFoundException("User not found with email: " + emailAddress));
+
     }
 }

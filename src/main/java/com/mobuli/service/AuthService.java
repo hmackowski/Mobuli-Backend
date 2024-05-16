@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface AuthService {
     String register(RegisterDto registerDto);
     String login(LoginDto loginDto);
-    Optional<User> getUserID(User user);
+    User getUserID(String emailAddress);
 }
