@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -25,16 +25,16 @@ jobs:
         run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       - name: Build docker image
         run: docker build -t hmackowski/mobuli-backend-0.0.1-snapshot .
-      - name: Publish image to docker hub
-        run: docker push hmackowski/mobuli-backend-0.0.1-snapshot:latest
 
   deploy:
     needs: build
-    runs-on: [aws-ec2]
+    runs-on: ubuntu-latest
     steps:
-      - name: Pull Image from docker hub
+      - name: Check Docker version
+        run: docker --version
+      - name: Pull Image from Docker Hub
         run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
       - name: Delete old container
-        run: docker rm -f springboot-example-container
-      - name: Run docker container
+        run: docker rm -f mobuli-container || true
+      - name: Run Docker container
         run: docker run -d -p 8080:8080 --name mobuli-container hmackowski/mobuli-backend-0.0.1-snapshot:latest
