@@ -24,17 +24,17 @@ jobs:
          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
      - name: Build docker image
-       run: docker build -t mobuli/Mobuli-Backend-0.0.1-SNAPSHOT .
+       run: docker build -t mobuli/mobuli-backend-0.0.1-snapshot .
      - name: Publish image to docker hub
-       run: docker push mobuli/Mobuli-Backend-0.0.1-SNAPSHOT:latest
+       run: docker push mobuli/mobuli-backend-0.0.1-snapshot:latest
 
   deploy:
     needs: build
     runs-on: [aws-ec2]
     steps:
       - name: Pull image from Docker hub
-        run: docker pull mobuli/Mobuli-Backend-0.0.1-SNAPSHOT:latest
+        run: docker pull mobuli/mobuli-backend-0.0.1-snapshot:latest
       - name: Delete old container
         run: docker rm -f mobuli-container
       - name: Run docker container
-        run: docker run -d -p 8080:8080 --name mobuli-container mobuli/Mobuli-Backend-0.0.1-SNAPSHOT:latest
+        run: docker run -d -p 8080:8080 --name mobuli-container mobuli/mobuli-backend-0.0.1-snapshot:latest
