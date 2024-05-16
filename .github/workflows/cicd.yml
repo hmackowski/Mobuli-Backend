@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest]
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -16,11 +16,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install docker.io -y
-          sudo systemctl start docker
+      - name: Build Project
+        run: mvn clean install -DskipTests
       - name: Log in to Docker Hub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -35,14 +32,9 @@ jobs:
     needs: build
     runs-on: [aws-ec2]
     steps:
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install docker.io -y
-          sudo systemctl start docker
-      - name: Pull image from Docker hub
-        run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot
+      - name: Pull Image from docker hub
+        run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
       - name: Delete old container
-        run: docker rm -f mobuli-container
+        run: docker rm -f springboot-example-container
       - name: Run docker container
         run: docker run -d -p 8080:8080 --name mobuli-container hmackowski/mobuli-backend-0.0.1-snapshot:latest
