@@ -61,5 +61,9 @@ public class DefaultMovieController implements MovieController {
         return movieService.deleteByImdbID(imdbID);
     }
 
+    @GetMapping("/test")
+    public String test(){
+        return "It's working";
+    }
 
 }
