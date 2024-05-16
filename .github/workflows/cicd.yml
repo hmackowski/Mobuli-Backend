@@ -16,8 +16,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Build Project
-        run: mvn clean install -DskipTests
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker.io -y
+          sudo systemctl start docker
       - name: Log in to Docker Hub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -32,6 +35,11 @@ jobs:
     needs: build
     runs-on: [aws-ec2]
     steps:
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker.io -y
+          sudo systemctl start docker
       - name: Pull image from Docker hub
         run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot
       - name: Delete old container
