@@ -34,8 +34,8 @@ jobs:
       - name: Check Docker version
         run: docker --version
       - name: Pull Image from Docker Hub
-        run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
+        run: sudo docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
       - name: Delete old container
-        run: docker rm -f mobuli-container || true
+        run: sudo docker rm -f mobuli-container || true
       - name: Run Docker container
-        run: docker run -d -p 8080:8080 --name mobuli-container hmackowski/mobuli-backend-0.0.1-snapshot:latest
+        run: sudo docker run -d -p 8080:8080 --name mobuli-container hmackowski/mobuli-backend-0.0.1-snapshot:latest
