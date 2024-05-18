@@ -37,17 +37,17 @@ public class SpringSecurityConfig {
         http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
                     //authorize.requestMatchers(HttpMethod.POST, "/movie/**").hasRole("ADMIN");
-                   // authorize.requestMatchers(HttpMethod.PUT, "/movie/**").hasRole("ADMIN");
+                    // authorize.requestMatchers(HttpMethod.PUT, "/movie/**").hasRole("ADMIN");
                     //authorize.requestMatchers(HttpMethod.DELETE, "/movie/**").hasRole("ADMIN");
-                   //authorize.requestMatchers(HttpMethod.GET, "/movie/**").hasRole("ADMIN");
-                    //  authorize.requestMatchers(HttpMethod.GET, "/movie/**").hasAnyRole("ADMIN", "USER");
-                    //  authorize.requestMatchers(HttpMethod.PATCH, "/movie/**").hasAnyRole("ADMIN", "USER");
+                    //authorize.requestMatchers(HttpMethod.GET, "/movie/**").hasRole("ADMIN");
+                    //authorize.requestMatchers(HttpMethod.GET, "/movie/**").hasAnyRole("ADMIN", "USER");
+                    //authorize.requestMatchers(HttpMethod.PATCH, "/movie/**").hasAnyRole("ADMIN", "USER");
                     authorize.requestMatchers(HttpMethod.GET, "/movie/**").permitAll();
                     authorize.requestMatchers("/movie/auth/**").permitAll(); //Allows all roles to access this end point
-                    // authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                    //authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.requestMatchers("/api/auth/**").permitAll();
-                    authorize.anyRequest().authenticated();
+                    //authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         return http.build();
     }
