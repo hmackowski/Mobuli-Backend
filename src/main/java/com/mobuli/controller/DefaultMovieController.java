@@ -5,7 +5,6 @@ import com.mobuli.service.MovieService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +13,8 @@ import java.util.Optional;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/movie")
-public class DefaultMovieController implements MovieController {
+public class DefaultMovieController {
+
     private final MovieService movieService;
 
     @Autowired
@@ -22,7 +22,6 @@ public class DefaultMovieController implements MovieController {
         this.movieService = movieService;
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/list")
     public List<Movie> getAllMovies() {
         System.out.println("Retrieving all movies!");
@@ -44,7 +43,6 @@ public class DefaultMovieController implements MovieController {
         }
     }
 
-    @Override
     @PutMapping("/{id}/watched")
     public ResponseEntity<Movie> updateWatchedStatus(@PathVariable long id, @RequestBody boolean newWatchedStatus) {
         try {
@@ -55,19 +53,12 @@ public class DefaultMovieController implements MovieController {
         }
     }
 
-    @Override
     @DeleteMapping("/deleteByimdbID")
     public Optional<Movie> deleteByImdbID(String imdbID) {
         return movieService.deleteByImdbID(imdbID);
     }
 
-    @Override
-    public List<Movie> getAllUserMovies(int userID) {
-        movieService.getAllUserMovies(userID);
-        return null;
-    }
-
-    @GetMapping("/test") //test statud of api endpoint
+    @GetMapping("/test") //test status of API endpoint
     public String test(){
         return "It's working";
     }
@@ -76,5 +67,4 @@ public class DefaultMovieController implements MovieController {
     public void addMovieToUser(@PathVariable Long userId, @RequestParam String imdbID) {
         movieService.addMovieToUser(userId, imdbID);
     }
-
 }
