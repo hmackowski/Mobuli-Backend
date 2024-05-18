@@ -54,3 +54,4 @@ jobs:
               -e DB_PASSWORD=$DB_PASSWORD \
               hmackowski/mobuli-backend-0.0.1-snapshot:latest
           EOF
+
