@@ -16,6 +16,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - name: Build Project
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: mvn clean install -e -X
       - name: Log in to Docker Hub
         env:
@@ -30,6 +33,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
     steps:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
@@ -44,8 +50,7 @@ jobs:
             docker stop mobuli-container || true
             docker rm mobuli-container || true
             docker run -d -p 8080:8080 --name mobuli-container \
-              -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
-              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e DB_USERNAME=$DB_USERNAME \
+              -e DB_PASSWORD=$DB_PASSWORD \
               hmackowski/mobuli-backend-0.0.1-snapshot:latest
-            docker exec mobuli-container printenv | grep DB
           EOF
