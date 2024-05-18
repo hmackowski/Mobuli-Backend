@@ -43,6 +43,10 @@ jobs:
       - name: Test SSH Connection
         run: ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-218-204-131.us-east-2.compute.amazonaws.com echo "SSH connection successful"
       - name: Deploy to EC2
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-218-204-131.us-east-2.compute.amazonaws.com << 'EOF'
             docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
