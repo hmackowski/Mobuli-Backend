@@ -36,14 +36,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up SSH
+        id: ssh
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+      - name: Test SSH Connection
+        run: ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-218-204-131.us-east-2.compute.amazonaws.com echo "SSH connection successful"
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-218-204-131.us-east-2.compute.amazonaws.com << 'EOF'
             docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
             docker stop mobuli-container || true
             docker rm mobuli-container || true
-            docker run -d -p 8080:8080 --name mobuli-container hmackowski/mobuli-backend-0.0.1-snapshot:latest
+            docker run -d -p 8080:8080 --name mobuli-container \
+              -e DB_URL=${DB_URL} \
+              -e DB_USERNAME=${DB_USERNAME} \
+              -e DB_PASSWORD=${DB_PASSWORD} \
+              hmackowski/mobuli-backend-0.0.1-snapshot:latest
           EOF
