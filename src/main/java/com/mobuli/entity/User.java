@@ -11,27 +11,27 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
-@Table(name="users")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // or another suitable strategy
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private long id;
 
     @Column(name = "username", nullable = false, length = 255)
     private String userName;
 
-    @Column(name = "email", nullable = false) // TEXT in MySQL has a maximum length of 65535 characters
+    @Column(name = "email", nullable = false)
     private String emailAddress;
 
     @Column(name = "password_hash", nullable = false)
     private String password;
 
     @Column(name = "first_name")
-    private String firstName; // Changed to String to match your initial structure, otherwise use Integer or a Date type
+    private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
@@ -46,10 +46,18 @@ public class User {
     private String passwordUpdatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_movies",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    )
+    private Set<Movie> movies;
 }

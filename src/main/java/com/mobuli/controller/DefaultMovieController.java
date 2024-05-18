@@ -61,9 +61,20 @@ public class DefaultMovieController implements MovieController {
         return movieService.deleteByImdbID(imdbID);
     }
 
-    @GetMapping("/test")
+    @Override
+    public List<Movie> getAllUserMovies(int userID) {
+        movieService.getAllUserMovies(userID);
+        return null;
+    }
+
+    @GetMapping("/test") //test statud of api endpoint
     public String test(){
         return "It's working";
+    }
+
+    @PostMapping("/user/{userId}/add")
+    public void addMovieToUser(@PathVariable Long userId, @RequestParam String imdbID) {
+        movieService.addMovieToUser(userId, imdbID);
     }
 
 }

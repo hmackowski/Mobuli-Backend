@@ -20,4 +20,7 @@ public interface MovieService {
 
     Optional<Movie> deleteByImdbID(String imdbID);
 
+    void getAllUserMovies(int userID);
+
+    public void addMovieToUser(Long userId, String imdbID);
 }
