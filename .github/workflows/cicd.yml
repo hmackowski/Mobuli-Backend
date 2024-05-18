@@ -33,13 +33,13 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [aws-ec2]
+    runs-on: ubuntu-latest
     steps:
       - name: Check Docker version
         run: docker --version
       - name: Pull Image from Docker Hub
-        run: sudo docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
+        run: docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
       - name: Delete old container
-        run: sudo docker rm -f mobuli-container || true
+        run: docker rm -f mobuli-container || true
       - name: Run Docker container
-        run: sudo docker run -d -p 8080:8080 --name mobuli-container hmackowski/mobuli-backend-0.0.1-snapshot:latest
+        run: docker run -d -p 8080:8080 --name mobuli-container hmackowski/mobuli-backend-0.0.1-snapshot:latest
