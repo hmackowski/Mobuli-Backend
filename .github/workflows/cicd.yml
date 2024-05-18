@@ -16,9 +16,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - name: Build Project
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: mvn clean install -e -X
       - name: Log in to Docker Hub
         env:
@@ -33,9 +30,6 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
     steps:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
@@ -44,6 +38,9 @@ jobs:
       - name: Test SSH Connection
         run: ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-218-204-131.us-east-2.compute.amazonaws.com echo "SSH connection successful"
       - name: Deploy to EC2
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-218-204-131.us-east-2.compute.amazonaws.com << 'EOF'
             docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
@@ -54,4 +51,3 @@ jobs:
               -e DB_PASSWORD=$DB_PASSWORD \
               hmackowski/mobuli-backend-0.0.1-snapshot:latest
           EOF
-
