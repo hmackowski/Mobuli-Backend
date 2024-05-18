@@ -44,7 +44,6 @@ jobs:
             docker stop mobuli-container || true
             docker rm mobuli-container || true
             docker run -d -p 8080:8080 --name mobuli-container \
-              -e SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }} \
-              -e SPRING_DATASOURCE_PASSWORD=Haskell!15 \
+              -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
               hmackowski/mobuli-backend-0.0.1-snapshot:latest
           EOF
