@@ -46,6 +46,8 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@ec2-18-218-204-131.us-east-2.compute.amazonaws.com << 'EOF'
+            echo "DB_USERNAME is $DB_USERNAME"
+            echo "DB_PASSWORD is $DB_PASSWORD"
             docker pull hmackowski/mobuli-backend-0.0.1-snapshot:latest
             docker stop mobuli-container || true
             docker rm mobuli-container || true
