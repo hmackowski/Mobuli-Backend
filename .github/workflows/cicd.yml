@@ -45,5 +45,6 @@ jobs:
             docker rm mobuli-container || true
             docker run -d -p 8080:8080 --name mobuli-container \
               -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
               hmackowski/mobuli-backend-0.0.1-snapshot:latest
           EOF
