@@ -58,13 +58,15 @@ public class DefaultMovieController {
         return movieService.deleteByImdbID(imdbID);
     }
 
-    @GetMapping("/test") //test status of API endpoint
-    public String test(){
-        return "It's working";
-    }
-
     @PostMapping("/user/{userId}/add")
     public void addMovieToUser(@PathVariable Long userId, @RequestParam String imdbID) {
         movieService.addMovieToUser(userId, imdbID);
+    }
+
+
+
+    @GetMapping("/test") //test status of API endpoint
+    public String test(){
+        return "It's working";
     }
 }

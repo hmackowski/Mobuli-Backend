@@ -2,7 +2,9 @@ package com.mobuli.service;
 
 import com.mobuli.entity.Movie;
 import com.mobuli.entity.User;
+import com.mobuli.entity.UserMovie;
 import com.mobuli.repository.MovieRepository;
+import com.mobuli.repository.UserMovieRepository;
 import com.mobuli.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class DefaultMovieService implements MovieService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserMovieRepository userMovieRepository;
 
     public DefaultMovieService(MovieRepository movieRepository) {
 
@@ -73,19 +78,12 @@ public class DefaultMovieService implements MovieService {
 
     }
 
-    @Override
     public void addMovieToUser(Long userId, String imdbID) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        Optional<Movie> movieOptional = movieRepository.findByImdbID(imdbID);
-
-        if (userOptional.isPresent() && movieOptional.isPresent()) {
-            User user = userOptional.get();
-            Movie movie = movieOptional.get();
-            user.getMovies().add(movie);
-            userRepository.save(user);
-        } else {
-            throw new RuntimeException("User or Movie not found");
-        }
+   UserMovie userMovie = new UserMovie();
+   userMovie.setUser(userId);
+   userMovie.setMovieID(imdbID);
+   userMovieRepository.save(userMovie);
+        System.out.printf("User: %d added movie %s successfully.%n", userId, imdbID);
     }
 
     // Implement other methods as needed
